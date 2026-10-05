@@ -1,0 +1,32 @@
+digraph N0 {
+  rankdir=LR; splines=true; nodesep=0.40; ranksep=0.75; bgcolor="white";
+  graph [fontname="DejaVu Sans"];
+  node  [fontname="DejaVu Sans", fontsize=14];
+  edge  [fontname="DejaVu Sans", fontsize=12, color="#37474f", penwidth=1.4, arrowsize=0.8];
+
+  node [shape=box, style=filled, fillcolor="white", color="#0f3d36", penwidth=2, margin="0.18,0.13"];
+  SOL [label="Solicitante\n(Estudiante /\nDocente)"];
+  ENC [label="Encargado del\nLaboratorio"];
+  SA  [label="Sistema\nAcadémico\n(Dir. de Tecnología)"];
+  DOC [label="Docente\nautorizante"];
+  PAT [label="Patrimonio"];
+  COO [label="Coordinación\nAcadémica"];
+
+  S [shape=circle, fixedsize=true, width=2.7, style=filled, fillcolor="#eaf3f1",
+     color="#0f3d36", penwidth=2, fontsize=14,
+     label="0\nSistema de\nPréstamo de Equipos\ndel Laboratorio\nde Informática"];
+
+  { rank=same; SOL; ENC; }
+  { rank=same; SA; DOC; PAT; COO; }
+
+  SOL -> S [label="datos de la\nsolicitud"];
+  S -> SOL [label="notificaciones\nal solicitante"];
+  ENC -> S [label="datos del equipo\ny de la devolución"];
+  S -> ENC [label="ficha de solicitud\ny alertas"];
+  S -> SA  [label="consulta de\nmatrícula"];
+  SA -> S  [label="condición de\nmatrícula y carrera"];
+  S -> DOC [label="pedido de\nautorización"];
+  DOC -> S [label="confirmación de\nautorización"];
+  S -> PAT [label="informe de daños\no faltantes"];
+  S -> COO [label="reporte mensual\nde uso de equipos"];
+}

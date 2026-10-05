@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Parcial ISO1 - Parte III - Fila 1</title>
+<style>
+  @page { size: A4; margin: 13mm 12mm 12mm 12mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 10.1pt; line-height: 1.42; color: #1c1c1c; margin: 0; }
+  h1 { font-size: 15.5pt; margin: 0 0 2mm 0; color: #0f3d36; }
+  h2 { font-size: 12.4pt; margin: 7mm 0 2.5mm 0; color: #0f3d36; border-bottom: 2px solid #0f3d36; padding-bottom: 1.2mm; page-break-after: avoid; }
+  h3 { font-size: 10.9pt; margin: 5mm 0 1.8mm 0; color: #15544a; page-break-after: avoid; }
+  h4 { font-size: 10.2pt; margin: 4mm 0 1.2mm 0; page-break-after: avoid; }
+  p { margin: 0 0 2.1mm 0; text-align: justify; }
+  ul, ol { margin: 0 0 2.5mm 0; padding-left: 5.5mm; }
+  li { margin-bottom: 1mm; }
+  table { width: 100%; border-collapse: collapse; margin: 2mm 0 3.5mm 0; font-size: 8.9pt; page-break-inside: avoid; }
+  th, td { border: 1px solid #9ab5b0; padding: 1.5mm 1.8mm; text-align: left; vertical-align: top; }
+  th { background: #e4efec; color: #0f3d36; }
+  .mono { font-family: "DejaVu Sans Mono", monospace; font-size: 8.6pt; background: #eef4f2; padding: 0 0.8mm; border-radius: 2px; }
+  .hdr { border-bottom: 3px solid #0f3d36; padding-bottom: 3mm; margin-bottom: 4mm; }
+  .hdr .meta { font-size: 9.2pt; color: #444; }
+  .fill { background: #fff8e1; border: 1px dashed #c89a2b; padding: 0.5mm 2mm; }
+  .note { background: #f1f6f5; border-left: 3px solid #0f3d36; padding: 2mm 3mm; margin: 2.5mm 0; font-size: 9.3pt; }
+  .cite { color: #15544a; font-style: italic; }
+  .pb { page-break-before: always; }
+  figure { margin: 3mm 0 4mm 0; page-break-inside: avoid; }
+  figcaption { font-size: 8.8pt; color: #555; margin-top: 1.5mm; text-align: center; }
+  svg { width: 100%; height: auto; display: block; }
+  .ent { fill: #ffffff; stroke: #0f3d36; stroke-width: 2.4; }
+  .proc { fill: #eaf3f1; stroke: #0f3d36; stroke-width: 2.4; }
+  .ds { stroke: #0f3d36; stroke-width: 2.6; fill: none; }
+  .fl { stroke: #37474f; stroke-width: 1.7; fill: none; marker-end: url(#ar); }
+  .tx { font-family: "DejaVu Sans", Arial, sans-serif; fill: #0f3d36; text-anchor: middle; }
+  .tp { font-size: 15px; font-weight: bold; }
+  .tl { font-size: 13px; fill: #263238; paint-order: stroke; stroke: #ffffff; stroke-width: 5px; stroke-linejoin: round; }
+  .leg { font-size: 12.5px; fill: #455a64; text-anchor: start; }
+  .figpage { page-break-before: always; }
+  figure.fig-n0 svg { width: 100%; height: auto; }
+  figure.fig-n1 { text-align: center; }
+  figure.fig-n1 svg { height: 249mm; width: auto; max-width: 100%; }
+  table.longtable { page-break-inside: auto; }
+  table.longtable tr { page-break-inside: avoid; }
+  u { text-decoration: underline; }
+  b.v { color: #0f3d36; }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>Examen Parcial · Parte III · Fila 1</h1>
+  <div class="meta">
+    Ingeniería del Software 1 (ISO1 — Ecom-82) · Universidad Columbia del Paraguay<br>
+    Bloques 3 y 4 — Ingeniería y modelado de requerimientos · Lunes 5 de octubre de 2026<br>
+    Caso práctico: préstamo de equipos del laboratorio — Instituto Técnico Superior Ñandutí, Luque<br><br>
+    <b>Apellido y nombre:</b> <span class="fill">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    &nbsp;&nbsp;<b>Carrera:</b> <span class="fill">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<div class="note" style="margin-top:0">
+<b>Referencia bibliográfica usada en todo el trabajo.</b> Pressman, R. S. (2010). <i>Ingeniería del software: un enfoque práctico</i> (7.ª ed.). México: McGraw-Hill. Capítulo 5 «Comprensión de los requerimientos» (pp. 101-125), capítulo 6 «Modelado de los requerimientos: escenarios, información y clases de análisis» (pp. 126-157) y capítulo 7 «Modelado de los requerimientos: flujo, comportamiento, patrones y webapps» (pp. 158-186). Las citas indican sección y página de esa edición.
+</div>
+
+<h2>1. Participantes y conflicto de requisitos</h2>
+
+<h3>1.1 Identificación de los participantes</h3>
+
+<p>Pressman, citando a Sommerville y Sawyer, define participante como <span class="cite">«cualquier persona que se beneficie en forma directa o indirecta del sistema en desarrollo»</span> (§5.2.1, p. 106), y agrega que <span class="cite">«cada participante tiene un punto de vista diferente respecto del sistema, obtiene distintos beneficios cuando éste se desarrolla con éxito y corre distintos riesgos si fracasa el esfuerzo de construcción»</span>. Bajo ese criterio se identifican siete participantes: los cuatro que intervinieron en la reunión de relevamiento y tres más que surgen de la información adicional y de las notas del formulario FORM-LAB-03, que no fueron consultados pero condicionan el sistema.</p>
+
+<table>
+<thead><tr><th style="width:4%">#</th><th style="width:22%">Participante</th><th style="width:23%">Tipo</th><th style="width:51%">Interés principal</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><b>Lic. Mirta Giménez</b><br>Coordinación Académica</td><td><b>Gerente / directivo</b>, y a la vez <b>cliente</b>: la Coordinación encargó el desarrollo y define alcance y prioridades. Es, en términos de Pressman (§5.2.3, p. 108), el <b>«campeón del proyecto»</b></td><td>Control y trazabilidad del préstamo: que todo equipo de valor alto tenga autorización docente sin excepción, y disponer de un reporte mensual de equipos usados, cantidad de usos y carreras, para justificar la compra de equipos nuevos</td></tr>
+<tr><td>2</td><td><b>Ramón Ortiz</b><br>Encargado del laboratorio</td><td><b>Usuario final.</b> Es quien opera el sistema a diario: registra qué sale y cómo vuelve</td><td>Agilidad en el mostrador: que el estudiante pueda retirar el equipo en el momento sin que el laboratorio se trabe; y que el sistema impida retirar equipos a quien no devolvió los anteriores, para que no se repita la pérdida de los dos proyectores</td></tr>
+<tr><td>3</td><td><b>Prof. Carlos Benítez</b><br>Docente de Redes</td><td><b>Usuario final</b>, con <b>doble rol</b>: es <i>solicitante</i> cuando retira proyectores para sus clases y <i>docente autorizante</i> cuando aprueba el pedido de un estudiante</td><td>Confirmar la autorización desde el celular, sin firmar papel; y poder retirar equipos él mismo sin requerir autorización de un tercero</td></tr>
+<tr><td>4</td><td><b>Natalia Fernández</b><br>Estudiante de 3.er año</td><td><b>Usuario final</b>, destinataria principal del servicio</td><td>Recibir un aviso antes de que venza el préstamo, para devolver a tiempo y no enterarse de la situación recién cuando ya fue sancionada</td></tr>
+<tr><td>5</td><td><b>Dirección de Tecnología</b><br>Sistema Académico</td><td><b>Proveedor / tercero</b>: sistema externo con el que el nuevo sistema se integra</td><td>Que el nuevo sistema <b>sólo consulte</b> la matrícula y no modifique en ningún caso el padrón académico, que ellos administran. Es una restricción de integración, no una preferencia</td></tr>
+<tr><td>6</td><td><b>Patrimonio</b></td><td><b>Gerente / directivo</b> (control institucional de bienes). Es un participante que se beneficia de forma <b>indirecta</b>, en el sentido de la definición de §5.2.1</td><td>Ser informado cuando un equipo vuelve con daños o faltantes, según la nota del punto 5 del FORM-LAB-03, para iniciar el trámite patrimonial</td></tr>
+<tr><td>7</td><td><b>Equipo de desarrollo</b></td><td><b>Ingenieros de software</b></td><td>Traducir estas necesidades en una solución técnica viable, trazable hasta los requerimientos y mantenible</td></tr>
+</tbody>
+</table>
+
+<div class="note"><b>Cómo se completó la lista.</b> Pressman advierte que la lista inicial de participantes <span class="cite">«crecerá cuando se haga contacto con los participantes porque a cada uno se le hará la pregunta: ¿a quién más piensa que debe consultarse?»</span> (§5.2.1, p. 107). Los participantes 5 y 6 aparecen justamente así: no estaban en la reunión, pero uno impone una restricción de integración y el otro recibe una salida obligatoria del sistema. Corresponde validarlos antes de cerrar la especificación; darlos por supuestos sería asumir en lugar de preguntar.</div>
+
+<h3>1.2 El conflicto de requisitos</h3>
+
+<p><b>Dónde está el conflicto.</b> La Lic. Giménez exige que <i>todo préstamo de un equipo de valor alto tenga la autorización del docente de la materia, sin excepción</i>. El Sr. Ortiz sostiene que, si cada estudiante debe esperar la firma de un docente, <i>el laboratorio se traba</i>, y necesita que el estudiante <i>pueda retirar cualquier equipo en el momento</i>. Los dos enunciados recaen sobre <b>el mismo requerimiento</b> —la autorización docente como precondición bloqueante de la entrega— y son mutuamente excluyentes tal como están redactados.</p>
+
+<p>Pressman define exactamente esta situación: <span class="cite">«El trabajo del ingeniero de requerimientos es identificar las áreas de interés común […] y las de conflicto o incongruencia (por ejemplo, requerimientos que desea un participante, pero que están en conflicto con las necesidades de otro). Es la última categoría la que, por supuesto, representa un reto»</span> (§5.2.3, p. 107). No es un malentendido: es un conflicto genuino entre dos puntos de vista legítimos. La coordinadora mira el sistema desde el <b>control del activo institucional</b>; el encargado, desde la <b>disponibilidad real del servicio</b>, con el dato concreto de que muchos estudiantes llegan a las seis de la tarde para presentar a las seis y media.</p>
+
+<p><b>Qué no es conflicto.</b> Conviene delimitarlo: el pedido del Prof. Benítez (autorizar desde el celular) y el de Natalia Fernández (aviso de vencimiento) son compatibles con ambas posturas, y la preocupación de Ortiz por los equipos no devueltos coincide con el objetivo de orden de la coordinadora —ése es el «área de interés común» desde la cual conviene empezar a negociar.</p>
+
+<h4>Cómo debe proceder el ingeniero de requisitos</h4>
+
+<p>Pressman estructura la respuesta en dos secciones: trabajar hacia la colaboración (§5.2.3) y la negociación de los requerimientos (§5.6, p. 121). El procedimiento concreto es:</p>
+
+<ol>
+<li><b>Reconocer que el conflicto es del dominio, no del analista.</b> El ingeniero de requerimientos identifica y clasifica el conflicto; no lo resuelve por su cuenta ni promedia las posturas. Pressman es explícito en que <span class="cite">«la colaboración no significa necesariamente que todos los requerimientos los defina un comité»</span> (§5.2.3, p. 108).</li>
+
+<li><b>Separar hechos del dominio de preferencias.</b> Antes de negociar hay que preguntar —no asumir— si la autorización para equipos de valor alto responde a un reglamento institucional o a una norma de Patrimonio, en cuyo caso es un hecho del dominio y no es negociable, o si es un criterio de gestión de la coordinadora, en cuyo caso sí lo es. También hay que establecer quién clasifica un equipo como de <i>valor alto</i> y con qué criterio, porque hoy el FORM-LAB-03 lo registra pero no dice quién lo determina.</li>
+
+<li><b>Aplicar el esquema de «puntos de prioridad»</b> (§5.2.3, p. 107). Es la técnica que Pressman propone para resolver requerimientos conflictivos: se da a cada participante un número fijo de puntos que puede «gastar» en los requerimientos que considere importantes; los puntos gastados no vuelven a usarse, y el total acumulado por requerimiento indica su importancia relativa para el conjunto. Aplicado a este caso, obliga a la coordinadora y al encargado a decir cuánto vale realmente cada postura frente al resto de los requerimientos (aviso de vencimiento, bloqueo por pendientes, autorización móvil, reporte mensual), en lugar de discutir una sola regla en abstracto.</li>
+
+<li><b>Conducir la negociación según las tres actividades de Boehm</b> que Pressman adopta (§5.6, p. 121): <i>a)</i> identificar a los participantes clave del sistema; <i>b)</i> determinar las <b>«condiciones para ganar»</b> de cada uno; <i>c)</i> negociarlas hasta reconciliarlas en un conjunto <b>ganar-ganar</b>. Aquí la condición para ganar de la coordinadora es que ningún equipo caro salga sin respaldo de un docente; la del encargado es que la cola no se detenga. Formuladas así —y no como «autorización sí / autorización no»— dejan de ser excluyentes y abren el espacio de solución.</li>
+
+<li><b>Reconocer quién toma la decisión final.</b> Pressman señala que <span class="cite">«un influyente “campeón del proyecto” (por ejemplo, el director del negocio o un tecnólogo experimentado) toma la decisión final sobre los requerimientos»</span> (§5.2.3, p. 108). En este caso es la Coordinación Académica, que encargó el sistema. El analista aporta el análisis y el costo de cada opción; no vota.</li>
+
+<li><b>Dejar registro escrito.</b> El conflicto, las condiciones para ganar y lo acordado quedan en el acta de la reunión y en la lista de requerimientos, para que nadie recuerde después una versión distinta.</li>
+</ol>
+
+<h4>Cómo se refleja en el modelo mientras el conflicto no esté resuelto</h4>
+
+<p>Pressman da el mecanismo explícito para esto dentro de la propia reunión de recabación: <span class="cite">«Durante todos los análisis, el equipo debe posponer los aspectos que no puedan resolverse en la reunión. Se conserva una lista de aspectos para volver después a dichas ideas»</span> (§5.3.1, p. 111). Esa <b>lista de aspectos pendientes</b> es el lugar donde el conflicto vive mientras se negocia, y tiene un correlato formal en la plantilla de caso de uso del propio libro, que incluye el encabezado <b>«Asuntos pendientes»</b> (§6.2.3, p. 136). En concreto, el conflicto se refleja en cuatro lugares del modelo:</p>
+
+<ul>
+<li><b>En la lista de requerimientos:</b> los dos requerimientos se enuncian por separado y <b>ambos se mantienen vivos</b>, marcados <span class="mono">EN NEGOCIACIÓN</span>, con el participante que lo originó y la fecha. Ninguno se descarta de hecho por omisión.
+  <ul>
+  <li><span class="mono">RF-07</span> — El sistema no permite registrar la entrega de un equipo de valor alto sin la confirmación previa del docente autorizante. <i>(Coordinación Académica)</i></li>
+  <li><span class="mono">RF-08</span> — El sistema permite al encargado registrar la entrega inmediata de cualquier equipo disponible. <i>(Encargado del laboratorio)</i></li>
+  </ul></li>
+<li><b>En el campo «Asuntos pendientes» del caso de uso formal</b> (consigna 2), tal como lo usa Pressman en el caso AVC-MVC de CasaSegura, donde los asuntos sin resolver sobre seguridad y ancho de banda quedan asentados dentro del propio caso de uso en lugar de desaparecer.</li>
+<li><b>En el flujo básico y en el flujo alterno A2:</b> el modelo adopta provisoriamente la postura más restrictiva —la del campeón del proyecto, que además protege el activo— y deja el conflicto visible como excepción: si el equipo es de valor alto y el docente no confirma en el momento, la solicitud <b>queda en estado <span class="mono">Solicitada</span> y el equipo no se entrega</b>. El flujo alterno es, literalmente, el lugar del modelo donde el conflicto se hace visible y auditable.</li>
+<li><b>En la estructura del modelo:</b> la autorización se modela como <b>atributo opcional condicionado al atributo <span class="mono">valor del equipo</span></b>, y el estado <span class="mono">Solicitada</span> se mantiene separado de <span class="mono">Autorizada</span>. Así, si la negociación habilita una excepción —por ejemplo, retiro condicional con regularización dentro de las 24 horas—, el cambio es de <b>regla de negocio y no de estructura</b>. Esto respeta la regla práctica del análisis según la cual hay que mantener el nivel de abstracción alto y no «empantanarse en los detalles» de cómo funciona el sistema (§6.1.2, p. 128), y evita el retrabajo costoso en etapas avanzadas.</li>
+</ul>
+
+<div class="pb"></div>
+<h2>2. Caso de uso formal</h2>
+
+<p>Se sigue la plantilla del caso de uso formal tal como Pressman la presenta en §6.2.3 (pp. 135-136), que es la del caso <i>AVC-MVC</i> de CasaSegura. Se conservan los encabezados del libro —incluidos <i>iteración</i>, <i>prioridad</i>, <i>frecuencia de uso</i>, <i>canal al actor</i>, <i>canales a los actores secundarios</i> y <i>asuntos pendientes</i>— y se agregan las <b>postcondiciones</b>, que la consigna pide y que el ejemplo del libro no incluye de forma explícita.</p>
+
+<table>
+<tr><th style="width:24%">Caso de uso</th><td><b>Registrar el préstamo de un equipo</b> (CU-01)</td></tr>
+<tr><th>Iteración</th><td>1, última modificación: 5 de octubre de 2026, tras la reunión de recabación de requerimientos</td></tr>
+<tr><th>Actor principal</th><td>Encargado del Laboratorio de Informática (rol <i>Encargado</i>)</td></tr>
+<tr><th>Actores secundarios</th><td>Solicitante (rol <i>Estudiante</i> o rol <i>Docente</i>) · Docente autorizante · <b>Sistema Académico</b> de la Dirección de Tecnología (sistema externo, sólo consulta)</td></tr>
+<tr><th>Objetivo en contexto</th><td>Registrar la entrega de un equipo del Laboratorio de Informática a un solicitante habilitado, dejando trazabilidad del código de inventario, de la autorización docente cuando corresponda y de la devolución prevista, de modo que el equipo pueda seguirse hasta su devolución</td></tr>
+<tr><th>Precondiciones</th><td>
+  <ol style="margin-bottom:0">
+  <li>El encargado está autenticado en el sistema con su perfil.</li>
+  <li>El solicitante se identifica con número de matrícula (estudiante) o de legajo (docente).</li>
+  <li>El equipo solicitado existe en el inventario, con código de inventario y estado <span class="mono">disponible</span>.</li>
+  <li>El sistema tiene acceso de consulta al Sistema Académico de la Dirección de Tecnología.</li>
+  </ol></td></tr>
+<tr><th>Disparador</th><td>El solicitante se presenta en el mostrador del Laboratorio de Informática para retirar un equipo</td></tr>
+<tr><th>Prioridad</th><td>Alta: es la función central del sistema; debe implementarse en el primer incremento</td></tr>
+<tr><th>Frecuencia de uso</th><td>Muy alta, con picos al final de la jornada (turno noche) y en semanas de presentación de trabajos</td></tr>
+<tr><th>Canal al actor</th><td>Estación de trabajo del mostrador del laboratorio</td></tr>
+<tr><th>Canales a los actores secundarios</th><td>1. Solicitante: presencial en el mostrador; notificaciones por correo institucional. 2. Docente autorizante: aplicación móvil o notificación push al celular. 3. Sistema Académico: servicio de consulta en línea, de sólo lectura</td></tr>
+</table>
+
+<h4>Escenario — flujo básico</h4>
+<ol>
+<li>El encargado inicia el registro de una nueva solicitud de préstamo.</li>
+<li>El encargado ingresa el <b>tipo de solicitante</b> (Estudiante / Docente) y el <b>número de matrícula o legajo</b>.</li>
+<li>El sistema <b>consulta el Sistema Académico</b> con ese número de matrícula.</li>
+<li>El Sistema Académico devuelve la matrícula como vigente, junto con el nombre y apellido y la <b>carrera</b> del solicitante; el sistema los muestra al encargado.</li>
+<li>El sistema verifica que el solicitante <b>no tenga préstamos sin devolver ni en estado <span class="mono">Vencida</span></b>.</li>
+<li>El encargado registra el equipo solicitado: <b>categoría</b> (Notebook / Proyector / Kit Arduino-IoT / Cámara / Otro), <b>código de inventario</b> y <b>devolución prevista</b>.</li>
+<li>El sistema recupera del inventario el <b>valor del equipo</b> (Alto / Normal), asigna el <b>número de solicitud</b> y crea la solicitud en estado <span class="mono">Solicitada</span>.</li>
+<li>Como el valor del equipo es <b>Alto</b> y el tipo de solicitante es <b>Estudiante</b>, el sistema envía al <b>docente autorizante</b> de la materia un pedido de confirmación a su dispositivo móvil.</li>
+<li>El docente confirma la autorización. El sistema registra el <b>docente autorizante</b> y la fecha y hora de la confirmación, y pasa la solicitud al estado <span class="mono">Autorizada</span>.</li>
+<li>El encargado entrega físicamente el equipo y confirma la entrega en el sistema.</li>
+<li>El sistema registra la <b>fecha y hora de retiro</b>, marca el equipo como <span class="mono">no disponible</span> en el inventario y pasa la solicitud al estado <span class="mono">Entregada</span>.</li>
+<li>El sistema <b>programa el aviso de vencimiento</b> al solicitante en función de la devolución prevista registrada.</li>
+</ol>
+
+<h4>Excepciones (flujos alternos)</h4>
+<table>
+<thead><tr><th style="width:6%">N.º</th><th style="width:29%">Situación</th><th>Comportamiento</th></tr></thead>
+<tbody>
+<tr><td><b>A1</b></td><td>Matrícula no vigente en el Sistema Académico <i>(paso 4)</i></td><td>El Sistema Académico devuelve la matrícula como no vigente o inexistente. El sistema no permite continuar, registra la solicitud en estado <span class="mono">Rechazada</span> con el motivo en <i>Observaciones</i> e informa al solicitante cuál es el motivo. Fin del caso de uso sin entrega.</td></tr>
+<tr><td><b>A2</b></td><td>Equipo de valor Alto sin confirmación docente en el momento <i>(paso 9)</i>.<br><b>Este flujo alterno es el que refleja en el modelo el conflicto de requisitos todavía abierto</b> (véase consigna 1 y «Asuntos pendientes»).</td><td>El docente no confirma dentro del plazo definido. La solicitud <b>permanece en estado <span class="mono">Solicitada</span></b>, pendiente de autorización; el equipo <b>no se entrega</b> y el pedido de confirmación queda activo. Si el docente confirma más tarde, el flujo se retoma en el paso 10. Fin del caso de uso sin entrega.</td></tr>
+<tr><td><b>A3</b></td><td>El solicitante tiene préstamos pendientes o vencidos <i>(paso 5)</i></td><td>El sistema detecta un préstamo anterior sin devolución registrada o en estado <span class="mono">Vencida</span>. Bloquea la operación, informa al encargado cuáles son los equipos pendientes y registra la solicitud como <span class="mono">Rechazada</span>, con el motivo en <i>Observaciones</i>. Fin del caso de uso sin entrega. <i>(Es el requerimiento que surge de la pérdida de los dos proyectores.)</i></td></tr>
+<tr><td><b>A4</b></td><td>El Sistema Académico no está disponible <i>(paso 3)</i></td><td>El sistema externo no responde. El sistema informa la indisponibilidad y deja la solicitud en estado <span class="mono">Solicitada</span>, con la verificación de matrícula marcada como pendiente; no se registra la entrega hasta poder verificarla. El intento queda asentado para auditoría.</td></tr>
+<tr><td><b>A5</b></td><td>El solicitante es docente <i>(paso 8)</i></td><td>Si el tipo de solicitante es <i>Docente</i>, el sistema <b>omite el pedido de autorización</b>, cualquiera sea el valor del equipo, y el flujo continúa en el paso 10. Corresponde a la nota del punto 3 del FORM-LAB-03.</td></tr>
+<tr><td><b>A6</b></td><td>Equipo de valor Normal <i>(paso 8)</i></td><td>Si el valor del equipo recuperado del inventario es <i>Normal</i>, el sistema omite la autorización docente y el flujo continúa en el paso 10.</td></tr>
+</tbody>
+</table>
+
+<h4>Postcondiciones</h4>
+<ol>
+<li>La solicitud queda en estado <span class="mono">Entregada</span>, con su número de solicitud asignado y la fecha y hora de retiro registradas.</li>
+<li>El equipo queda marcado como <span class="mono">no disponible</span> en el inventario, asociado al solicitante.</li>
+<li>Queda registrada la <b>devolución prevista</b> y programado el aviso de vencimiento al solicitante.</li>
+<li>Si el equipo era de valor Alto y el solicitante estudiante, queda asentado el docente autorizante y el momento de su confirmación.</li>
+<li>El préstamo queda incorporado al historial del solicitante, insumo del control de pendientes del paso 5 y del cambio automático a estado <span class="mono">Vencida</span> si pasa la devolución prevista sin registrarse la devolución.</li>
+<li>El préstamo queda disponible para el reporte mensual por equipo, cantidad de usos y carrera.</li>
+</ol>
+
+<h4>Asuntos pendientes</h4>
+<ol>
+<li>¿La autorización docente para equipos de valor alto responde a un reglamento institucional o a un criterio de gestión? De la respuesta depende si el conflicto <span class="mono">RF-07</span> / <span class="mono">RF-08</span> es negociable. <b>Pendiente de definición por la Coordinación Académica.</b></li>
+<li>¿Quién clasifica un equipo como de valor alto y con qué criterio? El FORM-LAB-03 registra el dato, pero no establece el responsable.</li>
+<li>Si se habilita el retiro sin autorización previa, ¿cuál es el plazo de regularización y qué ocurre si el docente luego no autoriza, con el equipo ya entregado?</li>
+<li>¿Qué docente es el «docente autorizante» cuando el estudiante cursa varias materias? ¿Lo elige el solicitante, el encargado, o se deriva del Sistema Académico?</li>
+<li>¿Con cuánta anticipación debe enviarse el aviso de vencimiento, y por qué canal, para que sea efectivo?</li>
+</ol>
+
+<div class="note"><b>Nota sobre los estados.</b> Los estados usados —<span class="mono">Solicitada</span>, <span class="mono">Autorizada</span>, <span class="mono">Entregada</span>, <span class="mono">Devuelta</span>, <span class="mono">Devuelta con observación</span>, <span class="mono">Vencida</span>, <span class="mono">Rechazada</span>— son los del punto 4 del FORM-LAB-03, no estados inventados. <span class="mono">Devuelta</span> y <span class="mono">Devuelta con observación</span> no aparecen en este caso de uso porque pertenecen al caso de uso <i>Registrar la devolución de un equipo</i>, que sí figura en el DFD de la consigna 3 (proceso 5).</div>
+<div class="pb"></div>
+<h2>3. Diagrama de flujo de datos</h2>
+
+<p>El DFD adopta el punto de vista <b>entrada – proceso – salida</b>: los objetos de datos entran al sistema, son transformados por elementos de procesamiento y los objetos resultantes salen (§7.1, p. 159). Se usa la notación de Pressman: <b>entidades externas = cuadros</b>, <b>procesos = burbujas (círculos)</b>, <b>almacenes de datos = dos líneas paralelas</b> con los costados abiertos y <b>flujos de datos = flechas con leyenda</b>. Se respetan los seis lineamientos de §7.2.1 (p. 160), en particular que <i>el nivel 0 ilustre el sistema como una sola burbuja</i>, que <i>todas las flechas y burbujas estén etiquetadas con nombres significativos</i> y que <i>de un nivel a otro se mantenga la continuidad del flujo de información</i>.</p>
+
+<h3>3.1 Análisis gramatical previo</h3>
+
+<p>Siguiendo §7.2.1 (p. 160), se parte de una narración del procesamiento construida con lo relevado en la reunión y con el FORM-LAB-03, y se aíslan sustantivos y verbos:</p>
+
+<div class="note" style="font-size:9.6pt">
+«El sistema de préstamo permite que el <u>encargado del laboratorio</u> <b class="v">registre</b> la <u>solicitud</u> de un <u>estudiante</u> o de un <u>docente</u>, <b class="v">verifique</b> su <u>matrícula</u> contra el <u>Sistema Académico</u>, <b class="v">controle</b> que no tenga <u>préstamos pendientes</u> y <b class="v">entregue</b> el <u>equipo</u>, descontándolo del <u>inventario</u>. Cuando el equipo es de <u>valor alto</u>, el sistema <b class="v">solicita</b> la <u>autorización</u> del <u>docente autorizante</u>, que la <b class="v">confirma</b> desde su celular. Al pasar la <u>devolución prevista</u>, el sistema <b class="v">avisa</b> al <u>solicitante</u>. Cuando el equipo vuelve, el encargado <b class="v">registra</b> la <u>devolución</u> y sus <u>observaciones</u>, e <b class="v">informa</b> a <u>Patrimonio</u> si hay <u>daños o faltantes</u>. A fin de mes el sistema <b class="v">genera</b> un <u>reporte de uso de equipos por carrera</u> para la <u>Coordinación Académica</u>.»
+</div>
+
+<table>
+<thead><tr><th style="width:26%">Elemento gramatical</th><th style="width:26%">Se representa como</th><th>Identificados en el caso</th></tr></thead>
+<tbody>
+<tr><td><b>Verbos</b> (y frases verbales)</td><td>Burbujas / procesos</td><td>verificar, registrar (solicitud), gestionar la autorización, registrar (entrega), registrar (devolución), controlar vencimientos y avisar, generar el reporte</td></tr>
+<tr><td rowspan="3"><b>Sustantivos</b> (y frases sustantivadas), según el rol que cumplen en la oración</td><td>Entidades externas (cuadros)</td><td>solicitante (estudiante / docente), encargado del laboratorio, docente autorizante, Sistema Académico, Patrimonio, Coordinación Académica</td></tr>
+<tr><td>Flujos de datos (flechas)</td><td>solicitud, matrícula, condición de matrícula y carrera, autorización, confirmación de entrega, observaciones, aviso de vencimiento, reporte mensual</td></tr>
+<tr><td>Almacenes de datos (líneas dobles)</td><td>solicitudes de préstamo (D1), inventario de equipos (D2), historial de préstamos (D3)</td></tr>
+</tbody>
+</table>
+
+<div class="figpage">
+<h3 style="margin-top:0">3.2 DFD de Nivel 0 — diagrama de contexto</h3>
+<figure class="fig-n0">
+<svg 
+ viewBox="0.00 0.00 819.00 350.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 346)">
+<title>N0</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-346 815,-346 815,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>SOL</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="120.5,-267.5 5.5,-267.5 5.5,-204.5 120.5,-204.5 120.5,-267.5"/>
+<text text-anchor="middle" x="63" y="-247.3" font-family="DejaVu Sans" font-size="14.00">Solicitante</text>
+<text text-anchor="middle" x="63" y="-232.3" font-family="DejaVu Sans" font-size="14.00">(Estudiante /</text>
+<text text-anchor="middle" x="63" y="-217.3" font-family="DejaVu Sans" font-size="14.00">Docente)</text>
+</g>
+
+<g id="node7" class="node">
+<title>S</title>
+<ellipse fill="#eaf3f1" stroke="#0f3d36" stroke-width="2" cx="386" cy="-185" rx="97" ry="97"/>
+<text text-anchor="middle" x="386" y="-211.3" font-family="DejaVu Sans" font-size="14.00">0</text>
+<text text-anchor="middle" x="386" y="-196.3" font-family="DejaVu Sans" font-size="14.00">Sistema de</text>
+<text text-anchor="middle" x="386" y="-181.3" font-family="DejaVu Sans" font-size="14.00">Préstamo de Equipos</text>
+<text text-anchor="middle" x="386" y="-166.3" font-family="DejaVu Sans" font-size="14.00">del Laboratorio</text>
+<text text-anchor="middle" x="386" y="-151.3" font-family="DejaVu Sans" font-size="14.00">de Informática</text>
+</g>
+
+<g id="edge1" class="edge">
+<title>SOL&#45;&gt;S</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M120.59,-245.01C160.56,-249.62 215.15,-252.33 262,-242 272.07,-239.78 282.3,-236.65 292.34,-232.98"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="293.49,-235.54 299.97,-230.08 291.5,-230.31 293.49,-235.54"/>
+<text text-anchor="middle" x="207.5" y="-265.4" font-family="DejaVu Sans" font-size="12.00">datos de la</text>
+<text text-anchor="middle" x="207.5" y="-252.4" font-family="DejaVu Sans" font-size="12.00">solicitud</text>
+</g>
+
+<g id="node2" class="node">
+<title>ENC</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="126,-158 0,-158 0,-110 126,-110 126,-158"/>
+<text text-anchor="middle" x="63" y="-137.8" font-family="DejaVu Sans" font-size="14.00">Encargado del</text>
+<text text-anchor="middle" x="63" y="-122.8" font-family="DejaVu Sans" font-size="14.00">Laboratorio</text>
+</g>
+
+<g id="edge3" class="edge">
+<title>ENC&#45;&gt;S</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M126.12,-141.54C165.2,-146.52 216.65,-153.49 262,-161 268.71,-162.11 275.62,-163.31 282.57,-164.56"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="282.38,-167.37 290.75,-166.04 283.38,-161.86 282.38,-167.37"/>
+<text text-anchor="middle" x="207.5" y="-177.4" font-family="DejaVu Sans" font-size="12.00">datos del equipo</text>
+<text text-anchor="middle" x="207.5" y="-164.4" font-family="DejaVu Sans" font-size="12.00">y de la devolución</text>
+</g>
+
+<g id="node3" class="node">
+<title>SA</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="811,-324.5 652,-324.5 652,-261.5 811,-261.5 811,-324.5"/>
+<text text-anchor="middle" x="731.5" y="-304.3" font-family="DejaVu Sans" font-size="14.00">Sistema</text>
+<text text-anchor="middle" x="731.5" y="-289.3" font-family="DejaVu Sans" font-size="14.00">Académico</text>
+<text text-anchor="middle" x="731.5" y="-274.3" font-family="DejaVu Sans" font-size="14.00">(Dir. de Tecnología)</text>
+</g>
+
+<g id="edge6" class="edge">
+<title>SA&#45;&gt;S</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M651.76,-269.63C609.62,-256.99 556.89,-240.94 510,-226 502.2,-223.51 494.13,-220.91 486.03,-218.26"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="486.73,-215.55 478.26,-215.72 484.99,-220.87 486.73,-215.55"/>
+<text text-anchor="middle" x="567.5" y="-277.4" font-family="DejaVu Sans" font-size="12.00">condición de</text>
+<text text-anchor="middle" x="567.5" y="-264.4" font-family="DejaVu Sans" font-size="12.00">matrícula y carrera</text>
+</g>
+
+<g id="node4" class="node">
+<title>DOC</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="784,-220 679,-220 679,-172 784,-172 784,-220"/>
+<text text-anchor="middle" x="731.5" y="-199.8" font-family="DejaVu Sans" font-size="14.00">Docente</text>
+<text text-anchor="middle" x="731.5" y="-184.8" font-family="DejaVu Sans" font-size="14.00">autorizante</text>
+</g>
+
+<g id="edge8" class="edge">
+<title>DOC&#45;&gt;S</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M678.93,-172.8C662.09,-166.35 643.07,-160.23 625,-157 580.47,-149.03 530.82,-152.89 488.45,-159.95"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="487.75,-157.23 480.35,-161.36 488.71,-162.75 487.75,-157.23"/>
+<text text-anchor="middle" x="567.5" y="-173.4" font-family="DejaVu Sans" font-size="12.00">confirmación de</text>
+<text text-anchor="middle" x="567.5" y="-160.4" font-family="DejaVu Sans" font-size="12.00">autorización</text>
+</g>
+
+<g id="node5" class="node">
+<title>PAT</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="781.5,-113 681.5,-113 681.5,-77 781.5,-77 781.5,-113"/>
+<text text-anchor="middle" x="731.5" y="-91.3" font-family="DejaVu Sans" font-size="14.00">Patrimonio</text>
+</g>
+
+<g id="node6" class="node">
+<title>COO</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="790,-48 673,-48 673,0 790,0 790,-48"/>
+<text text-anchor="middle" x="731.5" y="-27.8" font-family="DejaVu Sans" font-size="14.00">Coordinación</text>
+<text text-anchor="middle" x="731.5" y="-12.8" font-family="DejaVu Sans" font-size="14.00">Académica</text>
+</g>
+
+<g id="edge2" class="edge">
+<title>S&#45;&gt;SOL</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M289,-190.78C246.98,-194.38 197.26,-200.08 153,-209 144.96,-210.62 136.61,-212.66 128.39,-214.89"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="127.51,-212.22 120.56,-217.07 129.02,-217.62 127.51,-212.22"/>
+<text text-anchor="middle" x="207.5" y="-225.4" font-family="DejaVu Sans" font-size="12.00">notificaciones</text>
+<text text-anchor="middle" x="207.5" y="-212.4" font-family="DejaVu Sans" font-size="12.00">al solicitante</text>
+</g>
+
+<g id="edge4" class="edge">
+<title>S&#45;&gt;ENC</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M305.66,-130.54C291.66,-123.31 276.81,-117.01 262,-113 220.42,-101.72 172.39,-106.41 134.06,-114.18"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="133.27,-111.48 126.03,-115.88 134.43,-116.96 133.27,-111.48"/>
+<text text-anchor="middle" x="207.5" y="-129.4" font-family="DejaVu Sans" font-size="12.00">ficha de solicitud</text>
+<text text-anchor="middle" x="207.5" y="-116.4" font-family="DejaVu Sans" font-size="12.00">y alertas</text>
+</g>
+
+<g id="edge5" class="edge">
+<title>S&#45;&gt;SA</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M447.83,-260.03C465.87,-277.06 487.01,-292.81 510,-302 551.95,-318.76 602.03,-318.18 643.85,-312.67"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="644.3,-315.43 651.83,-311.54 643.52,-309.89 644.3,-315.43"/>
+<text text-anchor="middle" x="567.5" y="-332.4" font-family="DejaVu Sans" font-size="12.00">consulta de</text>
+<text text-anchor="middle" x="567.5" y="-319.4" font-family="DejaVu Sans" font-size="12.00">matrícula</text>
+</g>
+
+<g id="edge7" class="edge">
+<title>S&#45;&gt;DOC</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M483.14,-188.08C543.24,-190 618.77,-192.42 670.46,-194.08"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="670.46,-196.88 678.54,-194.34 670.64,-191.28 670.46,-196.88"/>
+<text text-anchor="middle" x="567.5" y="-209.4" font-family="DejaVu Sans" font-size="12.00">pedido de</text>
+<text text-anchor="middle" x="567.5" y="-196.4" font-family="DejaVu Sans" font-size="12.00">autorización</text>
+</g>
+
+<g id="edge9" class="edge">
+<title>S&#45;&gt;PAT</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M469.9,-135.92C482.98,-129.73 496.62,-124.13 510,-120 563.71,-103.41 627.83,-97.61 673.05,-95.69"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="673.37,-98.48 681.26,-95.38 673.16,-92.88 673.37,-98.48"/>
+<text text-anchor="middle" x="567.5" y="-136.4" font-family="DejaVu Sans" font-size="12.00">informe de daños</text>
+<text text-anchor="middle" x="567.5" y="-123.4" font-family="DejaVu Sans" font-size="12.00">o faltantes</text>
+</g>
+
+<g id="edge10" class="edge">
+<title>S&#45;&gt;COO</title>
+<path fill="none" stroke="#37474f" stroke-width="1.4" d="M449.73,-111.67C467.6,-94.69 488.2,-78.31 510,-67 558.17,-42.01 619.12,-31.48 664.72,-27.08"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.4" points="665.05,-29.86 672.77,-26.35 664.55,-24.28 665.05,-29.86"/>
+<text text-anchor="middle" x="567.5" y="-83.4" font-family="DejaVu Sans" font-size="12.00">reporte mensual</text>
+<text text-anchor="middle" x="567.5" y="-70.4" font-family="DejaVu Sans" font-size="12.00">de uso de equipos</text>
+</g>
+</g>
+</svg>
+<figcaption><b>Figura 1.</b> DFD de nivel 0 del Sistema de Préstamo de Equipos del Laboratorio de Informática. Todo el sistema se representa como <b>una sola burbuja</b> (lineamiento 1, §7.2.1); sólo interesa qué cruza la frontera.</figcaption>
+</figure>
+
+<p style="font-size:9.4pt">Siguiendo el criterio de Pressman de que una flecha con leyenda puede representar <span class="cite">«objetos de datos o jerarquías de éstos»</span> (§7.2.1, p. 160) —como «comandos y datos del usuario» en CasaSegura—, dos flujos del nivel 0 agrupan varios datos, que se abren en el nivel 1:</p>
+<table style="font-size:8.6pt">
+<thead><tr><th style="width:32%">Flujo agrupado (nivel 0)</th><th>Se descompone en</th></tr></thead>
+<tbody>
+<tr><td><b>datos de la solicitud</b></td><td>tipo de solicitante · n.º de matrícula o legajo · categoría del equipo · código de inventario · devolución prevista</td></tr>
+<tr><td><b>notificaciones al solicitante</b></td><td>comprobante de préstamo · aviso de vencimiento</td></tr>
+<tr><td><b>datos del equipo y de la devolución</b></td><td>datos del equipo solicitado · confirmación de entrega · fecha y hora de devolución · observaciones (estado, faltantes, daños)</td></tr>
+<tr><td><b>ficha de solicitud y alertas</b></td><td>ficha de la solicitud en pantalla · alerta de préstamos pendientes o vencidos</td></tr>
+</tbody>
+</table>
+<p style="font-size:9.4pt"><b>Nota sobre el Sistema Académico.</b> Se modela como <b>entidad externa (cuadro)</b> y no como almacén de datos, porque está fuera de la frontera del sistema: lo administra la Dirección de Tecnología y el nuevo sistema sólo puede consultarlo. Por eso el único flujo que sale hacia él es <i>consulta de matrícula</i>; no existe ningún flujo que lo modifique.</p>
+</div>
+
+<div class="figpage">
+<h3 style="margin-top:0">3.3 DFD de Nivel 1</h3>
+<figure class="fig-n1">
+<svg 
+ viewBox="0.00 0.00 906.00 1386.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1382)">
+<title>N1</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1382 902,-1382 902,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>SOL</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="397.5,-1378 222.5,-1378 222.5,-1334 397.5,-1334 397.5,-1378"/>
+<text text-anchor="middle" x="310" y="-1359.6" font-family="DejaVu Sans" font-size="13.00">Solicitante</text>
+<text text-anchor="middle" x="310" y="-1345.6" font-family="DejaVu Sans" font-size="13.00">(Estudiante / Docente)</text>
+</g>
+
+<g id="node8" class="node">
+<title>P1</title>
+<ellipse fill="#eaf3f1" stroke="#0f3d36" stroke-width="2" cx="310" cy="-1212.5" rx="45.5" ry="45.5"/>
+<text text-anchor="middle" x="310" y="-1222.4" font-family="DejaVu Sans" font-size="12.00">1</text>
+<text text-anchor="middle" x="310" y="-1209.4" font-family="DejaVu Sans" font-size="12.00">Verificar</text>
+<text text-anchor="middle" x="310" y="-1196.4" font-family="DejaVu Sans" font-size="12.00">solicitante</text>
+</g>
+
+<g id="edge1" class="edge">
+<title>SOL&#45;&gt;P1</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M310,-1333.82C310,-1315.87 310,-1289.37 310,-1265.8"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="312.63,-1265.77 310,-1258.27 307.38,-1265.77 312.63,-1265.77"/>
+<text text-anchor="middle" x="355" y="-1305.2" font-family="DejaVu Sans" font-size="11.00">datos del</text>
+<text text-anchor="middle" x="355" y="-1293.2" font-family="DejaVu Sans" font-size="11.00">solicitante</text>
+<text text-anchor="middle" x="355" y="-1281.2" font-family="DejaVu Sans" font-size="11.00">(matrícula, tipo)</text>
+</g>
+
+<g id="node2" class="node">
+<title>SOL2</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="354.5,-323 237.5,-323 237.5,-287 354.5,-287 354.5,-323"/>
+<text text-anchor="middle" x="296" y="-301.6" font-family="DejaVu Sans" font-size="13.00">Solicitante (*)</text>
+</g>
+
+<g id="node3" class="node">
+<title>ENC</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="606,-900.5 486,-900.5 486,-856.5 606,-856.5 606,-900.5"/>
+<text text-anchor="middle" x="546" y="-882.1" font-family="DejaVu Sans" font-size="13.00">Encargado del</text>
+<text text-anchor="middle" x="546" y="-868.1" font-family="DejaVu Sans" font-size="13.00">Laboratorio</text>
+</g>
+
+<g id="node9" class="node">
+<title>P2</title>
+<ellipse fill="#eaf3f1" stroke="#0f3d36" stroke-width="2" cx="398" cy="-1045.5" rx="45.5" ry="45.5"/>
+<text text-anchor="middle" x="398" y="-1055.4" font-family="DejaVu Sans" font-size="12.00">2</text>
+<text text-anchor="middle" x="398" y="-1042.4" font-family="DejaVu Sans" font-size="12.00">Registrar</text>
+<text text-anchor="middle" x="398" y="-1029.4" font-family="DejaVu Sans" font-size="12.00">solicitud</text>
+</g>
+
+<g id="edge5" class="edge">
+<title>ENC&#45;&gt;P2</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M537.92,-900.51C528.85,-922.16 512.55,-956.04 491,-980 477.66,-994.83 460.27,-1008.04 444.15,-1018.59"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="442.71,-1016.39 437.81,-1022.64 445.54,-1020.81 442.71,-1016.39"/>
+<text text-anchor="middle" x="568" y="-971.2" font-family="DejaVu Sans" font-size="11.00">datos del equipo</text>
+<text text-anchor="middle" x="568" y="-959.2" font-family="DejaVu Sans" font-size="11.00">(categoría, código,</text>
+<text text-anchor="middle" x="568" y="-947.2" font-family="DejaVu Sans" font-size="11.00">devolución)</text>
+</g>
+
+<g id="node11" class="node">
+<title>P4</title>
+<ellipse fill="#eaf3f1" stroke="#0f3d36" stroke-width="2" cx="398" cy="-432.5" rx="45.5" ry="45.5"/>
+<text text-anchor="middle" x="398" y="-442.4" font-family="DejaVu Sans" font-size="12.00">4</text>
+<text text-anchor="middle" x="398" y="-429.4" font-family="DejaVu Sans" font-size="12.00">Registrar</text>
+<text text-anchor="middle" x="398" y="-416.4" font-family="DejaVu Sans" font-size="12.00">entrega</text>
+</g>
+
+<g id="edge15" class="edge">
+<title>ENC&#45;&gt;P4</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M606.15,-861.05C630.83,-851.18 657.26,-835.94 673,-813 738.3,-717.79 733.06,-662.28 693,-554 658.39,-460.44 526.19,-438.9 451.04,-434.34"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="451.14,-431.71 443.51,-433.92 450.85,-436.96 451.14,-431.71"/>
+<text text-anchor="middle" x="754.5" y="-631.2" font-family="DejaVu Sans" font-size="11.00">confirmación</text>
+<text text-anchor="middle" x="754.5" y="-619.2" font-family="DejaVu Sans" font-size="11.00">de entrega</text>
+</g>
+
+<g id="node12" class="node">
+<title>P5</title>
+<ellipse fill="#eaf3f1" stroke="#0f3d36" stroke-width="2" cx="602" cy="-711.5" rx="45.5" ry="45.5"/>
+<text text-anchor="middle" x="602" y="-721.4" font-family="DejaVu Sans" font-size="12.00">5</text>
+<text text-anchor="middle" x="602" y="-708.4" font-family="DejaVu Sans" font-size="12.00">Registrar</text>
+<text text-anchor="middle" x="602" y="-695.4" font-family="DejaVu Sans" font-size="12.00">devolución</text>
+</g>
+
+<g id="edge20" class="edge">
+<title>ENC&#45;&gt;P5</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M553.21,-856.27C561.22,-832.66 574.44,-793.71 585.1,-762.31"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="587.68,-762.86 587.61,-754.91 582.71,-761.17 587.68,-762.86"/>
+<text text-anchor="middle" x="624.5" y="-804.2" font-family="DejaVu Sans" font-size="11.00">datos de</text>
+<text text-anchor="middle" x="624.5" y="-792.2" font-family="DejaVu Sans" font-size="11.00">devolución</text>
+<text text-anchor="middle" x="624.5" y="-780.2" font-family="DejaVu Sans" font-size="11.00">y observaciones</text>
+</g>
+
+<g id="node4" class="node">
+<title>SA</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="323,-1067.5 167,-1067.5 167,-1023.5 323,-1023.5 323,-1067.5"/>
+<text text-anchor="middle" x="245" y="-1049.1" font-family="DejaVu Sans" font-size="13.00">Sistema Académico</text>
+<text text-anchor="middle" x="245" y="-1035.1" font-family="DejaVu Sans" font-size="13.00">(Dir. de Tecnología)</text>
+</g>
+
+<g id="edge3" class="edge">
+<title>SA&#45;&gt;P1</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M264.7,-1067.57C274.73,-1079.45 286.2,-1095.08 293,-1111 299.42,-1126.03 303.42,-1143.31 305.91,-1159.24"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="303.35,-1159.89 307.02,-1166.94 308.55,-1159.14 303.35,-1159.89"/>
+<text text-anchor="middle" x="339" y="-1138.2" font-family="DejaVu Sans" font-size="11.00">condición de</text>
+<text text-anchor="middle" x="339" y="-1126.2" font-family="DejaVu Sans" font-size="11.00">matrícula</text>
+<text text-anchor="middle" x="339" y="-1114.2" font-family="DejaVu Sans" font-size="11.00">y carrera</text>
+</g>
+
+<g id="node5" class="node">
+<title>DOC</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="100,-733.5 0,-733.5 0,-689.5 100,-689.5 100,-733.5"/>
+<text text-anchor="middle" x="50" y="-715.1" font-family="DejaVu Sans" font-size="13.00">Docente</text>
+<text text-anchor="middle" x="50" y="-701.1" font-family="DejaVu Sans" font-size="13.00">autorizante</text>
+</g>
+
+<g id="node10" class="node">
+<title>P3</title>
+<ellipse fill="#eaf3f1" stroke="#0f3d36" stroke-width="2" cx="120" cy="-878.5" rx="45.5" ry="45.5"/>
+<text text-anchor="middle" x="120" y="-894.9" font-family="DejaVu Sans" font-size="12.00">3</text>
+<text text-anchor="middle" x="120" y="-881.9" font-family="DejaVu Sans" font-size="12.00">Gestionar</text>
+<text text-anchor="middle" x="120" y="-868.9" font-family="DejaVu Sans" font-size="12.00">autorización</text>
+<text text-anchor="middle" x="120" y="-855.9" font-family="DejaVu Sans" font-size="12.00">docente</text>
+</g>
+
+<g id="edge12" class="edge">
+<title>DOC&#45;&gt;P3</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M58.94,-733.58C69.12,-757.56 86.07,-797.51 99.53,-829.24"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="97.17,-830.41 102.52,-836.29 102,-828.36 97.17,-830.41"/>
+<text text-anchor="middle" x="134.5" y="-798.2" font-family="DejaVu Sans" font-size="11.00">confirmación</text>
+<text text-anchor="middle" x="134.5" y="-786.2" font-family="DejaVu Sans" font-size="11.00">de autorización</text>
+</g>
+
+<g id="node6" class="node">
+<title>PAT</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="686,-590 590,-590 590,-554 686,-554 686,-590"/>
+<text text-anchor="middle" x="638" y="-568.6" font-family="DejaVu Sans" font-size="13.00">Patrimonio</text>
+</g>
+
+<g id="node7" class="node">
+<title>COO</title>
+<polygon fill="white" stroke="#0f3d36" stroke-width="2" points="280,-44 168,-44 168,0 280,0 280,-44"/>
+<text text-anchor="middle" x="224" y="-25.6" font-family="DejaVu Sans" font-size="13.00">Coordinación</text>
+<text text-anchor="middle" x="224" y="-11.6" font-family="DejaVu Sans" font-size="13.00">Académica</text>
+</g>
+
+<g id="edge2" class="edge">
+<title>P1&#45;&gt;SA</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M270.3,-1190.06C254.72,-1179.36 238.54,-1164.87 230,-1147 219.11,-1124.22 225.08,-1095.5 232.47,-1074.6"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="234.94,-1075.5 235.12,-1067.56 230.02,-1073.65 234.94,-1075.5"/>
+<text text-anchor="middle" x="262" y="-1132.2" font-family="DejaVu Sans" font-size="11.00">consulta de</text>
+<text text-anchor="middle" x="262" y="-1120.2" font-family="DejaVu Sans" font-size="11.00">matrícula</text>
+</g>
+
+<g id="edge4" class="edge">
+<title>P1&#45;&gt;P2</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M345.96,-1184.26C357.49,-1173.8 369.26,-1160.99 377,-1147 385.08,-1132.39 390.06,-1115.01 393.12,-1098.86"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="395.79,-1098.88 394.48,-1091.04 390.61,-1097.98 395.79,-1098.88"/>
+<text text-anchor="middle" x="419" y="-1132.2" font-family="DejaVu Sans" font-size="11.00">solicitante</text>
+<text text-anchor="middle" x="419" y="-1120.2" font-family="DejaVu Sans" font-size="11.00">verificado</text>
+</g>
+
+<g id="edge8" class="edge">
+<title>P2&#45;&gt;ENC</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M403.05,-1000.17C407.04,-981.25 414.19,-959.92 427,-944 440.7,-926.97 460.16,-913.8 479.39,-903.93"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="480.61,-906.25 486.16,-900.58 478.28,-901.55 480.61,-906.25"/>
+<text text-anchor="middle" x="457.5" y="-965.2" font-family="DejaVu Sans" font-size="11.00">alerta de</text>
+<text text-anchor="middle" x="457.5" y="-953.2" font-family="DejaVu Sans" font-size="11.00">pendientes</text>
+</g>
+
+<g id="edge10" class="edge">
+<title>P2&#45;&gt;P3</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M361.91,-1017.27C351.72,-1010.7 340.31,-1004.34 329,-1000 276.88,-980 253.6,-1007.46 205,-980 181.56,-966.76 161.69,-944.42 147.07,-924.16"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="149.17,-922.58 142.71,-917.95 144.88,-925.6 149.17,-922.58"/>
+<text text-anchor="middle" x="257" y="-965.2" font-family="DejaVu Sans" font-size="11.00">solicitud de equipo</text>
+<text text-anchor="middle" x="257" y="-953.2" font-family="DejaVu Sans" font-size="11.00">de valor Alto</text>
+</g>
+
+<g id="node15" class="node">
+<title>D1</title>
+<polyline fill="none" stroke="#0f3d36" stroke-width="2" points="296,-557 500,-557 "/>
+<polyline fill="none" stroke="#0f3d36" stroke-width="2" points="500,-587 296,-587 "/>
+<text text-anchor="start" x="304" y="-568.6" font-family="DejaVu Sans" font-size="13.00">D1  Solicitudes de préstamo</text>
+</g>
+
+<g id="edge9" class="edge">
+<title>P2&#45;&gt;D1</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M398,-999.72C398,-901.44 398,-669.76 398,-595.99"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="400.63,-595.68 398,-588.18 395.38,-595.68 400.63,-595.68"/>
+<text text-anchor="middle" x="450" y="-798.2" font-family="DejaVu Sans" font-size="11.00">solicitud</text>
+<text text-anchor="middle" x="450" y="-786.2" font-family="DejaVu Sans" font-size="11.00">(estado Solicitada)</text>
+</g>
+
+<g id="edge11" class="edge">
+<title>P3&#45;&gt;DOC</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M76.59,-864.37C52.07,-854.48 23.51,-838.21 9,-813 -4.54,-789.47 10.15,-760.58 25.58,-739.83"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="27.84,-741.2 30.36,-733.67 23.69,-737.98 27.84,-741.2"/>
+<text text-anchor="middle" x="43" y="-798.2" font-family="DejaVu Sans" font-size="11.00">pedido de</text>
+<text text-anchor="middle" x="43" y="-786.2" font-family="DejaVu Sans" font-size="11.00">autorización</text>
+</g>
+
+<g id="edge13" class="edge">
+<title>P3&#45;&gt;D1</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M153.96,-847.87C163.54,-837.76 172.97,-825.76 179,-813 207.19,-753.33 161.7,-719.75 200,-666 227.81,-626.97 276.32,-603.82 318.36,-590.38"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="319.2,-592.86 325.59,-588.14 317.65,-587.85 319.2,-592.86"/>
+<text text-anchor="middle" x="254.5" y="-714.7" font-family="DejaVu Sans" font-size="11.00">estado Autorizada /</text>
+<text text-anchor="middle" x="254.5" y="-702.7" font-family="DejaVu Sans" font-size="11.00">Rechazada</text>
+</g>
+
+<g id="edge19" class="edge">
+<title>P4&#45;&gt;SOL2</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M383.72,-388.95C376.77,-370.04 368.53,-350.4 362,-343 356.61,-336.89 349.96,-331.57 342.97,-327.02"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="344.26,-324.73 336.49,-323.05 341.51,-329.2 344.26,-324.73"/>
+<text text-anchor="middle" x="412.5" y="-358.2" font-family="DejaVu Sans" font-size="11.00">comprobante</text>
+<text text-anchor="middle" x="412.5" y="-346.2" font-family="DejaVu Sans" font-size="11.00">de préstamo</text>
+</g>
+
+<g id="edge16" class="edge">
+<title>P4&#45;&gt;D1</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M433.04,-461.9C443.05,-472.11 452.68,-484.48 458,-498 463.85,-512.89 465.8,-520.03 458,-534 454.15,-540.89 448.44,-546.66 442.03,-551.43"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="440.2,-549.51 435.45,-555.88 443.13,-553.86 440.2,-549.51"/>
+<text text-anchor="middle" x="501.5" y="-525.2" font-family="DejaVu Sans" font-size="11.00">estado</text>
+<text text-anchor="middle" x="501.5" y="-513.2" font-family="DejaVu Sans" font-size="11.00">Entregada</text>
+<text text-anchor="middle" x="501.5" y="-501.2" font-family="DejaVu Sans" font-size="11.00">+ fecha retiro</text>
+</g>
+
+<g id="node16" class="node">
+<title>D2</title>
+<polyline fill="none" stroke="#0f3d36" stroke-width="2" points="612,-290 800,-290 "/>
+<polyline fill="none" stroke="#0f3d36" stroke-width="2" points="800,-320 612,-320 "/>
+<text text-anchor="start" x="620" y="-301.6" font-family="DejaVu Sans" font-size="13.00">D2  Inventario de equipos</text>
+</g>
+
+<g id="edge17" class="edge">
+<title>P4&#45;&gt;D2</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M439.86,-414.44C498.02,-390.74 602.8,-348.05 662.05,-323.91"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="663.09,-326.32 669.05,-321.06 661.11,-321.46 663.09,-326.32"/>
+<text text-anchor="middle" x="642" y="-358.2" font-family="DejaVu Sans" font-size="11.00">equipo no</text>
+<text text-anchor="middle" x="642" y="-346.2" font-family="DejaVu Sans" font-size="11.00">disponible</text>
+</g>
+
+<g id="node17" class="node">
+<title>D3</title>
+<polyline fill="none" stroke="#0f3d36" stroke-width="2" points="373,-290 567,-290 "/>
+<polyline fill="none" stroke="#0f3d36" stroke-width="2" points="567,-320 373,-320 "/>
+<text text-anchor="start" x="381" y="-301.6" font-family="DejaVu Sans" font-size="13.00">D3  Historial de préstamos</text>
+</g>
+
+<g id="edge18" class="edge">
+<title>P4&#45;&gt;D3</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M429.83,-399.73C438.33,-389.88 446.85,-378.56 453,-367 459.35,-355.06 463.53,-340.5 466.15,-328.61"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="468.73,-329.1 467.65,-321.23 463.58,-328.05 468.73,-329.1"/>
+<text text-anchor="middle" x="490.5" y="-358.2" font-family="DejaVu Sans" font-size="11.00">préstamo</text>
+<text text-anchor="middle" x="490.5" y="-346.2" font-family="DejaVu Sans" font-size="11.00">registrado</text>
+</g>
+
+<g id="edge25" class="edge">
+<title>P5&#45;&gt;PAT</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M613.29,-667.37C619.31,-644.39 626.49,-616.95 631.56,-597.6"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="634.16,-598.02 633.52,-590.1 629.09,-596.69 634.16,-598.02"/>
+<text text-anchor="middle" x="657" y="-637.2" font-family="DejaVu Sans" font-size="11.00">informe de</text>
+<text text-anchor="middle" x="657" y="-625.2" font-family="DejaVu Sans" font-size="11.00">daños o</text>
+<text text-anchor="middle" x="657" y="-613.2" font-family="DejaVu Sans" font-size="11.00">faltantes</text>
+</g>
+
+<g id="edge22" class="edge">
+<title>P5&#45;&gt;D1</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M561.18,-691.14C540.94,-680.04 517.21,-664.61 500,-646 487.72,-632.72 494.21,-622.36 481,-610 472.95,-602.47 463.11,-596.29 453.06,-591.29"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="453.99,-588.83 446.09,-588.01 451.76,-593.58 453.99,-588.83"/>
+<text text-anchor="middle" x="549.5" y="-631.2" font-family="DejaVu Sans" font-size="11.00">estado Devuelta /</text>
+<text text-anchor="middle" x="549.5" y="-619.2" font-family="DejaVu Sans" font-size="11.00">con observación</text>
+</g>
+
+<g id="edge23" class="edge">
+<title>P5&#45;&gt;D2</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M642.79,-691.07C660.5,-680.38 679.54,-665.33 690,-646 747.6,-539.52 723.26,-385.73 711.24,-328.53"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="713.78,-327.89 709.63,-321.12 708.65,-329 713.78,-327.89"/>
+<text text-anchor="middle" x="754" y="-519.2" font-family="DejaVu Sans" font-size="11.00">equipo</text>
+<text text-anchor="middle" x="754" y="-507.2" font-family="DejaVu Sans" font-size="11.00">disponible</text>
+</g>
+
+<g id="edge24" class="edge">
+<title>P5&#45;&gt;D3</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M605.58,-665.99C605.65,-648.17 603.97,-627.7 598,-610 594.53,-599.72 588.51,-599.87 584,-590 536.99,-487.04 585.83,-436.47 522,-343 517.55,-336.48 511.55,-330.72 505.2,-325.81"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="506.41,-323.44 498.79,-321.18 503.33,-327.7 506.41,-323.44"/>
+<text text-anchor="middle" x="603.5" y="-519.2" font-family="DejaVu Sans" font-size="11.00">fecha y hora</text>
+<text text-anchor="middle" x="603.5" y="-507.2" font-family="DejaVu Sans" font-size="11.00">de devolución</text>
+</g>
+
+<g id="node13" class="node">
+<title>P6</title>
+<ellipse fill="#eaf3f1" stroke="#0f3d36" stroke-width="2" cx="293" cy="-432.5" rx="45.5" ry="45.5"/>
+<text text-anchor="middle" x="293" y="-442.4" font-family="DejaVu Sans" font-size="12.00">6</text>
+<text text-anchor="middle" x="293" y="-429.4" font-family="DejaVu Sans" font-size="12.00">Controlar</text>
+<text text-anchor="middle" x="293" y="-416.4" font-family="DejaVu Sans" font-size="12.00">vencimientos</text>
+</g>
+
+<g id="edge28" class="edge">
+<title>P6&#45;&gt;SOL2</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M293.97,-386.93C294.28,-372.87 294.65,-357.29 295,-343 295.1,-339.09 295.2,-334.94 295.31,-330.89"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="297.94,-330.89 295.52,-323.32 292.69,-330.74 297.94,-330.89"/>
+<text text-anchor="middle" x="329" y="-358.2" font-family="DejaVu Sans" font-size="11.00">aviso de</text>
+<text text-anchor="middle" x="329" y="-346.2" font-family="DejaVu Sans" font-size="11.00">vencimiento</text>
+</g>
+
+<g id="edge27" class="edge">
+<title>P6&#45;&gt;D1</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M312.35,-473.87C322.65,-493.16 336.4,-515.93 352,-534 357.22,-540.05 363.53,-545.85 369.79,-550.99"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="368.46,-553.29 375.97,-555.89 371.73,-549.18 368.46,-553.29"/>
+<text text-anchor="middle" x="373.5" y="-519.2" font-family="DejaVu Sans" font-size="11.00">estado</text>
+<text text-anchor="middle" x="373.5" y="-507.2" font-family="DejaVu Sans" font-size="11.00">Vencida</text>
+</g>
+
+<g id="node14" class="node">
+<title>P7</title>
+<ellipse fill="#eaf3f1" stroke="#0f3d36" stroke-width="2" cx="224" cy="-165.5" rx="45.5" ry="45.5"/>
+<text text-anchor="middle" x="224" y="-181.9" font-family="DejaVu Sans" font-size="12.00">7</text>
+<text text-anchor="middle" x="224" y="-168.9" font-family="DejaVu Sans" font-size="12.00">Generar</text>
+<text text-anchor="middle" x="224" y="-155.9" font-family="DejaVu Sans" font-size="12.00">reporte</text>
+<text text-anchor="middle" x="224" y="-142.9" font-family="DejaVu Sans" font-size="12.00">mensual</text>
+</g>
+
+<g id="edge31" class="edge">
+<title>P7&#45;&gt;COO</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M224,-119.73C224,-97.53 224,-71.36 224,-51.84"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="226.63,-51.68 224,-44.18 221.38,-51.68 226.63,-51.68"/>
+<text text-anchor="middle" x="269.5" y="-91.2" font-family="DejaVu Sans" font-size="11.00">reporte mensual</text>
+<text text-anchor="middle" x="269.5" y="-79.2" font-family="DejaVu Sans" font-size="11.00">(equipo, usos,</text>
+<text text-anchor="middle" x="269.5" y="-67.2" font-family="DejaVu Sans" font-size="11.00">carrera)</text>
+</g>
+
+<g id="edge7" class="edge">
+<title>D1&#45;&gt;P2</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M390.01,-588.31C373.16,-621.55 334.45,-703.26 321,-777 306.47,-856.62 343.91,-946.56 371.54,-999.23"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="369.35,-1000.71 375.19,-1006.09 373.98,-998.24 369.35,-1000.71"/>
+<text text-anchor="middle" x="351.5" y="-798.2" font-family="DejaVu Sans" font-size="11.00">préstamos</text>
+<text text-anchor="middle" x="351.5" y="-786.2" font-family="DejaVu Sans" font-size="11.00">pendientes</text>
+</g>
+
+<g id="edge14" class="edge">
+<title>D1&#45;&gt;P4</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M398,-555.76C398,-538.9 398,-510.82 398,-485.81"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="400.63,-485.67 398,-478.17 395.38,-485.67 400.63,-485.67"/>
+<text text-anchor="middle" x="427.5" y="-519.2" font-family="DejaVu Sans" font-size="11.00">solicitud</text>
+<text text-anchor="middle" x="427.5" y="-507.2" font-family="DejaVu Sans" font-size="11.00">autorizada</text>
+</g>
+
+<g id="edge21" class="edge">
+<title>D1&#45;&gt;P5</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M401.97,-588.12C407.19,-606.96 416.67,-637.71 425,-646 458.36,-679.2 510.15,-695.46 549.1,-703.33"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="548.85,-705.95 556.71,-704.79 549.84,-700.8 548.85,-705.95"/>
+<text text-anchor="middle" x="453.5" y="-631.2" font-family="DejaVu Sans" font-size="11.00">préstamo</text>
+<text text-anchor="middle" x="453.5" y="-619.2" font-family="DejaVu Sans" font-size="11.00">entregado</text>
+</g>
+
+<g id="edge26" class="edge">
+<title>D1&#45;&gt;P6</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M294.98,-557.29C269.43,-551.69 247.02,-544.1 239,-534 223.31,-514.23 236.61,-489.25 253.94,-469.13"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="256.1,-470.66 259.16,-463.33 252.2,-467.15 256.1,-470.66"/>
+<text text-anchor="middle" x="280" y="-519.2" font-family="DejaVu Sans" font-size="11.00">préstamos con</text>
+<text text-anchor="middle" x="280" y="-507.2" font-family="DejaVu Sans" font-size="11.00">vencimiento</text>
+</g>
+
+<g id="edge29" class="edge">
+<title>D1&#45;&gt;P7</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M294.69,-558.89C265.51,-553.24 239.17,-545.22 230,-534 155.77,-443.18 185.05,-293.3 207.46,-216.01"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="209.99,-216.7 209.6,-208.76 204.96,-215.21 209.99,-216.7"/>
+<text text-anchor="middle" x="215" y="-358.2" font-family="DejaVu Sans" font-size="11.00">préstamos</text>
+<text text-anchor="middle" x="215" y="-346.2" font-family="DejaVu Sans" font-size="11.00">del período</text>
+</g>
+
+<g id="edge6" class="edge">
+<title>D2&#45;&gt;P2</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M734.97,-321.01C769.33,-341.13 822,-380.32 822,-431.5 822,-879.5 822,-879.5 822,-879.5 822,-958.36 564.08,-1014.58 450.57,-1035.5"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="449.88,-1032.96 442.97,-1036.89 450.82,-1038.12 449.88,-1032.96"/>
+<text text-anchor="middle" x="860" y="-631.2" font-family="DejaVu Sans" font-size="11.00">disponibilidad</text>
+<text text-anchor="middle" x="860" y="-619.2" font-family="DejaVu Sans" font-size="11.00">y valor</text>
+</g>
+
+<g id="edge30" class="edge">
+<title>D3&#45;&gt;P7</title>
+<path fill="none" stroke="#37474f" stroke-width="1.3" d="M442.73,-288.76C401.07,-265.47 321.06,-220.75 270.22,-192.33"/>
+<polygon fill="#37474f" stroke="#37474f" stroke-width="1.3" points="271.38,-189.97 263.55,-188.61 268.82,-194.56 271.38,-189.97"/>
+<text text-anchor="middle" x="431.5" y="-258.2" font-family="DejaVu Sans" font-size="11.00">historial por</text>
+<text text-anchor="middle" x="431.5" y="-246.2" font-family="DejaVu Sans" font-size="11.00">equipo</text>
+<text text-anchor="middle" x="431.5" y="-234.2" font-family="DejaVu Sans" font-size="11.00">y carrera</text>
+</g>
+</g>
+</svg>
+<figcaption><b>Figura 2.</b> DFD de nivel 1. La burbuja 0 se descompone en siete procesos y aparecen los tres almacenes de datos. <b>(*)</b> La entidad <i>Solicitante</i> se repite abajo, por claridad del trazado: es la misma entidad externa del extremo superior.</figcaption>
+</figure>
+</div>
+
+<h3>3.4 Verificación de la continuidad del flujo de información</h3>
+<p>Es el lineamiento 5 de §7.2.1: <span class="cite">«los objetos de datos que entran al sistema o a cualquier transformación en cierto nivel deben ser los mismos objetos de datos (o sus partes constitutivas) que entran a la transformación en un nivel mejorado»</span> (p. 160, nota 2). La verificación:</p>
+
+<table>
+<thead><tr><th style="width:36%">Flujo en el Nivel 0</th><th style="width:30%">Dónde reaparece en el Nivel 1</th><th>Partes constitutivas</th></tr></thead>
+<tbody>
+<tr><td>datos de la solicitud <i>(Solicitante → sistema)</i></td><td>Entrada de <b>P1 Verificar solicitante</b> y de <b>P2 Registrar solicitud</b></td><td>«datos del solicitante (matrícula, tipo)» y «datos del equipo (categoría, código, devolución)»</td></tr>
+<tr><td>notificaciones al solicitante <i>(sistema → Solicitante)</i></td><td>Salidas de <b>P4</b> y de <b>P6</b></td><td>«comprobante de préstamo» y «aviso de vencimiento»</td></tr>
+<tr><td>datos del equipo y de la devolución <i>(Encargado → sistema)</i></td><td>Entradas de <b>P2</b>, <b>P4</b> y <b>P5</b></td><td>datos del equipo · confirmación de entrega · datos de devolución y observaciones</td></tr>
+<tr><td>ficha de solicitud y alertas <i>(sistema → Encargado)</i></td><td>Salida de <b>P2</b></td><td>«alerta de pendientes»</td></tr>
+<tr><td>consulta de matrícula <i>(sistema → Sistema Académico)</i></td><td>Salida de <b>P1</b></td><td>mismo flujo, sin descomponer</td></tr>
+<tr><td>condición de matrícula y carrera <i>(Sistema Académico → sistema)</i></td><td>Entrada de <b>P1</b></td><td>mismo flujo, sin descomponer</td></tr>
+<tr><td>pedido de autorización / confirmación de autorización <i>(↔ Docente autorizante)</i></td><td>Salida y entrada de <b>P3</b></td><td>mismos flujos, sin descomponer</td></tr>
+<tr><td>informe de daños o faltantes <i>(sistema → Patrimonio)</i></td><td>Salida de <b>P5</b></td><td>mismo flujo, sin descomponer</td></tr>
+<tr><td>reporte mensual de uso de equipos <i>(sistema → Coordinación)</i></td><td>Salida de <b>P7</b></td><td>«reporte mensual (equipo, usos, carrera)»</td></tr>
+</tbody>
+</table>
+
+<p>Ningún flujo del nivel 1 cruza la frontera del sistema sin estar presente en el nivel 0, y ningún flujo del nivel 0 desaparece en el nivel 1. Los flujos nuevos que aparecen en el nivel 1 son todos <b>internos</b> (entre procesos, o entre procesos y almacenes), que es exactamente lo que el lineamiento 3 prevé al «aislar procesos candidatos, objetos de datos y almacenamiento de éstos para representarlos en el siguiente nivel».</p>
+
+<div class="note"><b>Por qué este DFD no es un diagrama de flujo de algoritmo.</b> Pressman advierte que el DFD se complica indebidamente <span class="cite">«cuando se trata de ilustrar demasiados detalles en una etapa muy temprana o representar aspectos de procedimiento del software en lugar del flujo de la información»</span> (§7.2.1, p. 160). Por eso en estos diagramas <b>no hay rombos de decisión ni secuencia temporal</b>: la condición «el equipo es de valor Alto» no se dibuja como una decisión, sino como el <b>flujo etiquetado</b> <i>«solicitud de equipo de valor Alto»</i> que entra al proceso 3.</p></div>
+
+<h3>3.5 Patrones de modelado reconocidos</h3>
+<p>Un patrón de análisis <span class="cite">«sugiere soluciones —por ejemplo, una clase, función o comportamiento— dentro del dominio de la aplicación que pueden volverse a utilizar cuando se modelen muchas aplicaciones»</span> (§5.5.2, p. 120) y se describe en un formato estándar: nombre, objetivo, motivación, restricciones, aplicabilidad y estructura (§7.4.2, p. 173). En esta solución se reconocen dos:</p>
+
+<table>
+<thead><tr><th style="width:22%">Patrón</th><th style="width:39%">Dónde aparece en este modelo</th><th>Por qué conviene reconocerlo</th></tr></thead>
+<tbody>
+<tr><td><b>Transacción / ciclo de vida</b></td><td>La <b>solicitud de préstamo</b> es la entidad central que atraviesa estados: <span class="mono">Solicitada → Autorizada → Entregada → Devuelta</span>, con las ramas <span class="mono">Devuelta con observación</span>, <span class="mono">Vencida</span> y <span class="mono">Rechazada</span>. Por eso <b>D1</b> se modela con un campo <i>estado</i> y transiciones válidas, y los procesos 2 a 6 son, en el fondo, transiciones de ese estado</td><td>Se repite en e-commerce, logística, mesas de ayuda y trámites administrativos: «entidad + estado + flujo + reglas de negocio». Reconocerlo evita modelar cada estado como si fuera un sistema distinto</td></tr>
+<tr><td><b>Rol / actor</b></td><td>El <b>solicitante</b> se modela como una sola entidad con un atributo <i>tipo</i> (Estudiante / Docente) que determina si requiere autorización, en lugar de dos actores separados. El Prof. Benítez lo demuestra: la misma persona es <i>solicitante</i> en un caso y <i>docente autorizante</i> en otro</td><td>Pressman recuerda que un actor es un <b>rol</b>, no una persona. El patrón evita duplicar entidades y deja el comportamiento diferencial en un atributo, no en la estructura</td></tr>
+</tbody>
+</table>
+
+<div class="pb"></div>
+<h2>4. Registro crítico del uso de inteligencia artificial</h2>
+
+<table class="longtable" style="font-size:8.5pt">
+<thead><tr><th style="width:3%">N.º</th><th style="width:9%">Herramienta</th><th style="width:17%">Prompt o consulta</th><th style="width:24%">Qué propuso la IA</th><th style="width:9%">Tu decisión</th><th>Fundamento</th></tr></thead>
+<tbody>
+<tr>
+<td>1</td><td>Claude (Anthropic)</td>
+<td>«Identificá los participantes del caso del laboratorio y clasificalos según los tipos vistos en clase»</td>
+<td>Listó sólo a las cuatro personas de la reunión y clasificó a Ramón Ortiz como <i>cliente</i> del sistema.</td>
+<td><b>Corregida</b></td>
+<td>Ortiz opera el sistema pero no lo solicita ni define el alcance: es <b>usuario final</b>; el cliente y «campeón del proyecto» es la Coordinación Académica (Pressman §5.2.3, p. 108). Además agregué al <b>Sistema Académico</b> y a <b>Patrimonio</b>, que la IA omitió por no estar en la reunión, aplicando el criterio de §5.2.1 (p. 106): participante es quien se beneficia <i>directa o indirectamente</i>, y la pregunta «¿a quién más piensa que debe consultarse?» (p. 107).</td>
+</tr>
+<tr>
+<td>2</td><td>Claude (Anthropic)</td>
+<td>«Proponé el DFD de nivel 1 de este sistema»</td>
+<td>Un diagrama con <b>rombo de decisión</b> para «¿el equipo es de valor Alto?», los procesos dibujados como <b>rectángulos</b> y el Sistema Académico puesto como <b>almacén de datos</b>.</td>
+<td><b>Descartada</b></td>
+<td>Los tres errores contradicen la notación de §7.1-7.2.1 (pp. 159-160): los procesos son <b>círculos</b>, no rectángulos; el DFD no representa «aspectos de procedimiento del software» y por lo tanto no lleva rombos —la condición se modela como flujo etiquetado hacia el proceso 3—; y el Sistema Académico está <b>fuera de la frontera</b> (lo administra otra dirección y sólo se consulta), de modo que es entidad externa, no almacén. Rehice el diagrama entero.</td>
+</tr>
+<tr>
+<td>3</td><td>Claude (Anthropic)</td>
+<td>«Redactá el caso de uso formal “Registrar el préstamo de un equipo”»</td>
+<td>Un caso de uso completo, pero <b>sin postcondiciones</b> y con pasos del tipo «el sistema muestra una pantalla con el botón Confirmar».</td>
+<td><b>Corregida</b></td>
+<td>Dos correcciones. Primera: la consigna pide postcondiciones explícitas, que el ejemplo AVC-MVC de CasaSegura (§6.2.3, p. 136) justamente no incluye —de ahí la omisión—; las agregué en términos de estado del sistema. Segunda: describir pantallas y botones es <b>diseño encubierto</b>; las reglas prácticas del análisis (§6.1.2, p. 128) obligan a posponer las consideraciones de implementación y mantener alto el nivel de abstracción. Reescribí los pasos en términos de datos y estados.</td>
+</tr>
+<tr>
+<td>4</td><td>Claude (Anthropic)</td>
+<td>«¿Cómo resuelvo el conflicto entre la coordinadora y el encargado del laboratorio?»</td>
+<td>Propuso una solución intermedia inventada: exigir autorización docente sólo para equipos por encima de un monto determinado, y presentarla como el requisito definitivo.</td>
+<td><b>Descartada</b></td>
+<td>El ingeniero de requisitos <b>no resuelve el conflicto por su cuenta</b>: identifica las áreas de interés común y las de conflicto (§5.2.3, p. 107), aplica un esquema de <b>puntos de prioridad</b> y conduce la negociación hacia un resultado ganar-ganar (§5.6, p. 121), pero la decisión final es del «campeón del proyecto». Además, la propuesta exigía un dato que el caso no da (el criterio de «valor alto»), es decir, <b>asumía en lugar de preguntar</b>. En su lugar lo documenté como conflicto abierto <span class="mono">RF-07</span>/<span class="mono">RF-08</span>, como flujo alterno A2 y en «Asuntos pendientes».</td>
+</tr>
+</tbody>
+</table>
+
+<div class="note" style="font-size:9.4pt"><b>Balance del uso de IA.</b> La herramienta fue útil para producir rápido un primer borrador de cada consigna y para no olvidar campos de la plantilla. No fue confiable en tres puntos concretos: la <b>notación</b> del DFD, la <b>frontera del sistema</b> (qué es entidad externa y qué es almacén) y el <b>límite del rol del analista</b> frente a un conflicto entre participantes. En los tres casos la corrección salió de contrastar contra Pressman, no de volver a preguntarle a la IA.</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+digraph N1 {
+  rankdir=TB; splines=true; nodesep=0.18; ranksep=0.55; bgcolor="white";
+  graph [fontname="DejaVu Sans"];
+  node  [fontname="DejaVu Sans", fontsize=13];
+  edge  [fontname="DejaVu Sans", fontsize=11, color="#37474f", penwidth=1.3, arrowsize=0.75];
+
+  // ---- entidades externas (cuadros)
+  node [shape=box, style=filled, fillcolor="white", color="#0f3d36", penwidth=2, margin="0.16,0.11"];
+  SOL  [label="Solicitante\n(Estudiante / Docente)"];
+  SOL2 [label="Solicitante (*)"];
+  ENC  [label="Encargado del\nLaboratorio"];
+  SA   [label="Sistema Académico\n(Dir. de Tecnología)"];
+  DOC  [label="Docente\nautorizante"];
+  PAT  [label="Patrimonio"];
+  COO  [label="Coordinación\nAcadémica"];
+
+  // ---- procesos (burbujas)
+  node [shape=circle, fixedsize=true, width=1.26, style=filled, fillcolor="#eaf3f1",
+        color="#0f3d36", penwidth=2, fontsize=12, margin="0,0"];
+  P1 [label="1\nVerificar\nsolicitante"];
+  P2 [label="2\nRegistrar\nsolicitud"];
+  P3 [label="3\nGestionar\nautorización\ndocente"];
+  P4 [label="4\nRegistrar\nentrega"];
+  P5 [label="5\nRegistrar\ndevolución"];
+  P6 [label="6\nControlar\nvencimientos"];
+  P7 [label="7\nGenerar\nreporte\nmensual"];
+
+  // ---- almacenes (dos líneas paralelas, costados abiertos)
+  node [shape=plaintext, style="", fillcolor="", margin="0,0", fixedsize=false, width=0, height=0];
+  D1 [label=<<TABLE BORDER="0" CELLBORDER="2" CELLSPACING="0" CELLPADDING="7"><TR><TD SIDES="TB" COLOR="#0f3d36"><FONT FACE="DejaVu Sans" POINT-SIZE="13">D1&nbsp;&nbsp;Solicitudes de préstamo</FONT></TD></TR></TABLE>>];
+  D2 [label=<<TABLE BORDER="0" CELLBORDER="2" CELLSPACING="0" CELLPADDING="7"><TR><TD SIDES="TB" COLOR="#0f3d36"><FONT FACE="DejaVu Sans" POINT-SIZE="13">D2&nbsp;&nbsp;Inventario de equipos</FONT></TD></TR></TABLE>>];
+  D3 [label=<<TABLE BORDER="0" CELLBORDER="2" CELLSPACING="0" CELLPADDING="7"><TR><TD SIDES="TB" COLOR="#0f3d36"><FONT FACE="DejaVu Sans" POINT-SIZE="13">D3&nbsp;&nbsp;Historial de préstamos</FONT></TD></TR></TABLE>>];
+
+  // ---- flujos
+  SOL -> P1 [label="datos del\nsolicitante\n(matrícula, tipo)"];
+  P1 -> SA  [label="consulta de\nmatrícula"];
+  SA -> P1  [label="condición de\nmatrícula\ny carrera"];
+  P1 -> P2  [label="solicitante\nverificado"];
+
+  ENC -> P2 [label="datos del equipo\n(categoría, código,\ndevolución)"];
+  D2 -> P2  [label="disponibilidad\ny valor"];
+  D1 -> P2  [label="préstamos\npendientes"];
+  P2 -> ENC [label="alerta de\npendientes"];
+  P2 -> D1  [label="solicitud\n(estado Solicitada)", weight=4];
+
+  P2 -> P3  [label="solicitud de equipo\nde valor Alto"];
+  P3 -> DOC [label="pedido de\nautorización"];
+  DOC -> P3 [label="confirmación\nde autorización"];
+  P3 -> D1  [label="estado Autorizada /\nRechazada"];
+
+  D1 -> P4  [label="solicitud\nautorizada", weight=5];
+  ENC -> P4 [label="confirmación\nde entrega"];
+  P4 -> D1  [label="estado\nEntregada\n+ fecha retiro"];
+  P4 -> D2  [label="equipo no\ndisponible"];
+  P4 -> D3  [label="préstamo\nregistrado"];
+  P4 -> SOL2 [label="comprobante\nde préstamo"];
+
+  ENC -> P5 [label="datos de\ndevolución\ny observaciones"];
+  D1 -> P5  [label="préstamo\nentregado"];
+  P5 -> D1  [label="estado Devuelta /\ncon observación"];
+  P5 -> D2  [label="equipo\ndisponible"];
+  P5 -> D3  [label="fecha y hora\nde devolución"];
+  P5 -> PAT [label="informe de\ndaños o\nfaltantes"];
+
+  D1 -> P6  [label="préstamos con\nvencimiento"];
+  P6 -> D1  [label="estado\nVencida"];
+  P6 -> SOL2 [label="aviso de\nvencimiento"];
+
+  D1 -> P7  [label="préstamos\ndel período"];
+  D3 -> P7  [label="historial por\nequipo\ny carrera"];
+  P7 -> COO [label="reporte mensual\n(equipo, usos,\ncarrera)"];
+}
